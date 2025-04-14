@@ -71,7 +71,7 @@ Follow these steps to set up and run CountryApp on your local machine:
      ```
 
 5. **Docs**:
-   - [Wiki](https://github.com/your-username/CountryApp/wiki)
+   - [Wiki](https://github.com/fpmi-tp2025/tpmp-gr12-lab4-hemrahudayberdiyev1/wiki))
    - Schema: [docs/er-diagram.png](docs/er-diagram.png)
    - Script: [docs/countries.sql](docs/countries.sql)
 
