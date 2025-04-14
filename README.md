@@ -70,12 +70,15 @@ Follow these steps to set up and run CountryApp on your local machine:
      6  | Sverdlovsk Oblast  | Yekaterinburg | 4300000   | 194307.00
      ```
 
+
 5. **Docs**:
    - [Wiki](https://github.com/fpmi-tp2025/tpmp-gr12-lab4-hemrahudayberdiyev1/wiki)
    - Schema: [er-diagrames.png](https://github.com/fpmi-tp2025/tpmp-gr12-lab4-hemrahudayberdiyev1/blob/main/diagrames/er-diagram.png)
-   - Script: [docs/countries.sql](docs/countries.sql)
+   - Script: [countries.db.sql](https://github.com/fpmi-tp2025/tpmp-gr12-lab4-hemrahudayberdiyev1/blob/main/countries.db.sql)
+
 
 ## Contributing
+
 - **Author**:
 
 - Hemra Hudayberdiyev
@@ -86,5 +89,5 @@ Follow these steps to set up and run CountryApp on your local machine:
   - Push: `git push origin feature`
   - Submit pull request to `main`.
 -
-- GitHub .
+- [GitHub](
 
