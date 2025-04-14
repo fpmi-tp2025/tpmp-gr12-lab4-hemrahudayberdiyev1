@@ -72,7 +72,7 @@ Follow these steps to set up and run CountryApp on your local machine:
 
 5. **Docs**:
    - [Wiki](https://github.com/fpmi-tp2025/tpmp-gr12-lab4-hemrahudayberdiyev1/wiki)
-   - Schema: [er-diagrames.png](
+   - Schema: [er-diagrames.png](https://github.com/fpmi-tp2025/tpmp-gr12-lab4-hemrahudayberdiyev1/blob/main/diagrames/er-diagram.png)
    - Script: [docs/countries.sql](docs/countries.sql)
 
 ## Contributing
