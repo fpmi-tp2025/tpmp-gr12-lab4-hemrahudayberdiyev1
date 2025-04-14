@@ -89,5 +89,5 @@ Follow these steps to set up and run CountryApp on your local machine:
   - Push: `git push origin feature`
   - Submit pull request to `main`.
 -
-- [GitHub](
+- [GitHub](https://github.com/fpmi-tp2025/tpmp-gr12-lab4-hemrahudayberdiyev1)
 
