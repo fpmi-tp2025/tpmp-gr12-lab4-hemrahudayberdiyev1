@@ -12,6 +12,7 @@ brew install sqlite3 gcc            # macOS
 
 # Сборка
 git clone https://github.com/fpmi-tp2025/tpmp-gr12-lab4-hemrahudayberdiyev1
+
 cd tpmp -gr12-lab4-hemrahudayberdiyev1
 make
 
@@ -33,13 +34,19 @@ make
 **Пример работы:**
 
 Логин: admin
+
 Пароль: ******
 
 Выберите действие: 1
+
 Название: Беларусь
+
 Столица: Минск
+
 Население: 9255000
+
 Площадь: 207600
+
 Страна добавлена!
 
 
