@@ -3,24 +3,43 @@
 #include <sqlite3.h>
 #include "auth.h"
 
-int authenticate_user(sqlite3* db, const char* username, const char* password) {
-    sqlite3_stmt* stmt;
-    const char* sql = "SELECT password_hash FROM User WHERE username = ?";
-    int rc = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
-    if (rc != SQLITE_OK) {
-        fprintf(stderr, "SQL error: %s\n", sqlite3_errmsg(db));
-        return 0;
-    }
+// Простая имитация хеширования пароля (в реальном проекте использовать bcrypt или подобное)
+static char* simple_hash(const char *password) {
+    static char hash[128];
+    snprintf(hash, sizeof(hash), "%s_hashed", password); // Заглушка
+    return hash;
+}
 
-    sqlite3_bind_text(stmt, 1, username, -1, SQLITE_STATIC);
-    if (sqlite3_step(stmt) == SQLITE_ROW) {
-        const char* stored_password = (const char*)sqlite3_column_text(stmt, 0);
-        if (strcmp(password, stored_password) == 0) {
-            sqlite3_finalize(stmt);
-            return 1;
+int authenticate_user(sqlite3 *db, const char *username, const char *password) {
+    sqlite3_stmt *stmt;
+    const char *sql = "SELECT password_hash FROM user WHERE username = ?";
+    int result = 0;
+
+    if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) == SQLITE_OK) {
+        sqlite3_bind_text(stmt, 1, username, -1, SQLITE_STATIC);
+        if (sqlite3_step(stmt) == SQLITE_ROW) {
+            const char *stored_hash = (const char *)sqlite3_column_text(stmt, 0);
+            if (strcmp(stored_hash, simple_hash(password)) == 0) {
+                result = 1; // Успешная аутентификация
+            }
         }
+        sqlite3_finalize(stmt);
     }
+    return result;
+}
 
-    sqlite3_finalize(stmt);
+int register_user(sqlite3 *db, const char *username, const char *password) {
+    sqlite3_stmt *stmt;
+    const char *sql = "INSERT INTO user (username, password_hash) VALUES (?, ?)";
+    
+    if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) == SQLITE_OK) {
+        sqlite3_bind_text(stmt, 1, username, -1, SQLITE_STATIC);
+        sqlite3_bind_text(stmt, 2, simple_hash(password), -1, SQLITE_STATIC);
+        if (sqlite3_step(stmt) == SQLITE_DONE) {
+            sqlite3_finalize(stmt);
+            return 1; // Успешная регистрация
+        }
+        sqlite3_finalize(stmt);
+    }
     return 0;
 }
