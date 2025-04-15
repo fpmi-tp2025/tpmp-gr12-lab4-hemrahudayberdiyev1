@@ -14,6 +14,7 @@ brew install sqlite3 gcc            # macOS
 git clone https://github.com/fpmi-tp2025/tpmp-gr12-lab4-hemrahudayberdiyev1
 
 cd tpmp -gr12-lab4-hemrahudayberdiyev1
+
 make
 
 ## Использование
