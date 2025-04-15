@@ -2,44 +2,46 @@
 #include <sqlite3.h>
 #include "region.h"
 
-void add_region(sqlite3 *db, const char *name, const char *capital, int population,
-                float square, int country_id) {
-    sqlite3_stmt *stmt;
-    const char *sql = "INSERT INTO region (name, capital_region, population_region, "
-                      "square_region, country_id) VALUES (?, ?, ?, ?, ?)";
-    if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) == SQLITE_OK) {
-        sqlite3_bind_text(stmt, 1, name, -1, SQLITE_STATIC);
-        sqlite3_bind_text(stmt, 2, capital, -1, SQLITE_STATIC);
-        sqlite3_bind_int(stmt, 3, population);
-        sqlite3_bind_double(stmt, 4, square);
-        sqlite3_bind_int(stmt, 5, country_id);
-        if (sqlite3_step(stmt) != SQLITE_DONE) {
-            fprintf(stderr, "Error adding region: %s\n", sqlite3_errmsg(db));
-        }
-        sqlite3_finalize(stmt);
+void add_region(sqlite3 *db) {
+    char name[100], capital[100];
+    int population, country_id;
+    float square;
+
+    printf("Enter region name: ");
+    scanf("%s", name);
+    printf("Enter capital: ");
+    scanf("%s", capital);
+    printf("Enter population: ");
+    scanf("%d", &population);
+    printf("Enter square: ");
+    scanf("%f", &square);
+    printf("Enter country ID: ");
+    scanf("%d", &country_id);
+
+    char sql[500];
+    snprintf(sql, sizeof(sql),
+             "INSERT INTO region (name, capital_region, population_region, square_region, country_id) "
+             "VALUES ('%s', '%s', %d, %f, %d)",
+             name, capital, population, square, country_id);
+
+    char *err;
+    if (sqlite3_exec(db, sql, NULL, NULL, &err) != SQLITE_OK) {
+        fprintf(stderr, "SQL error: %s\n", err);
+        sqlite3_free(err);
+    } else {
+        printf("Region added successfully!\n");
     }
 }
 
 void delete_region(sqlite3 *db, int id) {
-    sqlite3_stmt *stmt;
-    const char *sql = "DELETE FROM region WHERE id = ?";
-    if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) == SQLITE_OK) {
-        sqlite3_bind_int(stmt, 1, id);
-        sqlite3_step(stmt);
-        sqlite3_finalize(stmt);
-    }
-}
+    char sql[100];
+    snprintf(sql, sizeof(sql), "DELETE FROM region WHERE id = %d", id);
 
-void list_regions(sqlite3 *db) {
-    sqlite3_stmt *stmt;
-    const char *sql = "SELECT id, name, capital_region FROM region";
-    if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) == SQLITE_OK) {
-        while (sqlite3_step(stmt) == SQLITE_ROW) {
-            printf("ID: %d, Name: %s, Capital: %s\n",
-                   sqlite3_column_int(stmt, 0),
-                   sqlite3_column_text(stmt, 1),
-                   sqlite3_column_text(stmt, 2));
-        }
-        sqlite3_finalize(stmt);
+    char *err;
+    if (sqlite3_exec(db, sql, NULL, NULL, &err) != SQLITE_OK) {
+        fprintf(stderr, "SQL error: %s\n", err);
+        sqlite3_free(err);
+    } else {
+        printf("Region deleted successfully!\n");
     }
 }
