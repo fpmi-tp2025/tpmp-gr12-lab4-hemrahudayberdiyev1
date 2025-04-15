@@ -3,12 +3,10 @@
 
 #include <sqlite3.h>
 
-void add_country(sqlite3 *db, const char *name, const char *capital, const char *language,
-                 int population, float square, const char *currency, const char *head);
+void add_country(sqlite3 *db);
 void delete_country(sqlite3 *db, int id);
-void list_countries(sqlite3 *db);
-void list_regions_by_country(sqlite3 *db, const char *country_name);
-void avg_population_by_country(sqlite3 *db, const char *country_name);
+void list_regions(sqlite3 *db, int country_id);
+void avg_population(sqlite3 *db, int country_id);
 void total_population(sqlite3 *db);
 
 #endif
