@@ -8,23 +8,20 @@
 - Хранение данных в SQLite
 
 ## Установка
-```bash
-# Установка зависимостей
 brew install sqlite3 gcc            # macOS
 
 # Сборка
-git clone [https://github.com/fpmi-tp2025/tpmp-gr12-lab4-PermanAta777.git]
+git clone https://github.com/fpmi-tp2025/tpmp-gr12-lab4-hemrahudayberdiyev1
 cd tpmp -gr12-lab4-hemrahudayberdiyev1
 make
-```
 
 ## Использование
-```bash
+
 ./bin/country_app
-```
+
 
 **Основные функции:**
-```
+
 1. Добавить страну
 2. Удалить страну
 3. Добавить регион
@@ -32,10 +29,9 @@ make
 5. Просмотреть список
 6. Статистика
 0. Выход
-```
 
 **Пример работы:**
-```
+
 Логин: admin
 Пароль: ******
 
@@ -45,7 +41,7 @@ make
 Население: 9255000
 Площадь: 207600
 Страна добавлена!
-```
+
 
 ## Разработка
 **Автор:** Hudayberdiyev Hemraberdi 
