@@ -1,147 +1,91 @@
 #include <stdio.h>
-#include <string.h>
-#include <sqlite3.h>
+#include <stdlib.h>
 #include "auth.h"
 #include "database.h"
 #include "country.h"
 #include "region.h"
 
-void print_menu() {
+void show_menu() {
     printf("\nCountryApp Menu:\n");
-    printf("1. Add Country\n");
-    printf("2. Delete Country\n");
-    printf("3. List Countries\n");
-    printf("4. Add Region\n");
-    printf("5. Delete Region\n");
-    printf("6. List Regions\n");
-    printf("7. List Regions by Country\n");
-    printf("8. Average Population by Country\n");
-    printf("9. Total Population\n");
-    printf("10. Register New User\n");
-    printf("11. Exit\n");
-    printf("Enter choice: ");
+    printf("1. Добавить страну\n");
+    printf("2. Удалить страну\n");
+    printf("3. Добавить регион\n");
+    printf("4. Удалить регион\n");
+    printf("5. Список регионов для страны\n");
+    printf("6. Средняя численность населения по регионам\n");
+    printf("7. Общая численность населения\n");
+    printf("8. Выход\n");
+    printf("Выберите вариант: ");
 }
 
 int main() {
-    sqlite3 *db = init_db("countries.db");
-    if (!db) return 1;
-
-    // Аутентификация
-    char username[50], password[128];
-    printf("Enter username: ");
+    char username[50], password[50];
+    printf("Username: ");
     scanf("%s", username);
-    printf("Enter password: ");
+    printf("Password: ");
     scanf("%s", password);
 
-    if (!authenticate_user(db, username, password)) {
-        printf("Authentication failed. Try registering.\n");
-        close_db(db);
+    if (!authenticate(username, password)) {
+        printf("Authentication failed!\n");
         return 1;
     }
 
-    // Основной цикл меню
-    int choice;
-    char name[100], capital[100], language[50], currency[50], head[100];
-    int population, country_id, id;
-    float square;
+    sqlite3 *db = init_db();
+    if (!db) {
+        return 1;
+    }
 
+    int choice;
     while (1) {
-        print_menu();
+        show_menu();
         scanf("%d", &choice);
-        getchar(); // Очистка буфера
 
         switch (choice) {
-            case 1: // Add Country
-                printf("Enter name: ");
-                fgets(name, sizeof(name), stdin); name[strcspn(name, "\n")] = 0;
-                printf("Enter capital: ");
-                fgets(capital, sizeof(capital), stdin); capital[strcspn(capital, "\n")] = 0;
-                printf("Enter language: ");
-                fgets(language, sizeof(language), stdin); language[strcspn(language, "\n")] = 0;
-                printf("Enter population: ");
-                scanf("%d", &population);
-                printf("Enter square: ");
-                scanf("%f", &square);
-                getchar();
-                printf("Enter currency: ");
-                fgets(currency, sizeof(currency), stdin); currency[strcspn(currency, "\n")] = 0;
-                printf("Enter head: ");
-                fgets(head, sizeof(head), stdin); head[strcspn(head, "\n")] = 0;
-                add_country(db, name, capital, language, population, square, currency, head);
+            case 1:
+                add_country(db);
                 break;
-
-            case 2: // Delete Country
+            case 2: {
+                int id;
                 printf("Enter country ID to delete: ");
                 scanf("%d", &id);
                 delete_country(db, id);
                 break;
-
-            case 3: // List Countries
-                list_countries(db);
+            }
+            case 3:
+                add_region(db);
                 break;
-
-            case 4: // Add Region
-                printf("Enter region name: ");
-                fgets(name, sizeof(name), stdin); name[strcspn(name, "\n")] = 0;
-                printf("Enter region capital: ");
-                fgets(capital, sizeof(capital), stdin); capital[strcspn(capital, "\n")] = 0;
-                printf("Enter population: ");
-                scanf("%d", &population);
-                printf("Enter square: ");
-                scanf("%f", &square);
-                printf("Enter country ID: ");
-                scanf("%d", &country_id);
-                getchar();
-                add_region(db, name, capital, population, square, country_id);
-                break;
-
-            case 5: // Delete Region
+            case 4: {
+                int id;
                 printf("Enter region ID to delete: ");
                 scanf("%d", &id);
                 delete_region(db, id);
                 break;
-
-            case 6: // List Regions
-                list_regions(db);
+            }
+            case 5: {
+                int id;
+                printf("Enter country ID: ");
+                scanf("%d", &id);
+                list_regions(db, id);
                 break;
-
-            case 7: // List Regions by Country
-                printf("Enter country name: ");
-                fgets(name, sizeof(name), stdin); name[strcspn(name, "\n")] = 0;
-                list_regions_by_country(db, name);
+            }
+            case 6: {
+                int id;
+                printf("Enter country ID: ");
+                scanf("%d", &id);
+                avg_population(db, id);
                 break;
-
-            case 8: // Average Population by Country
-                printf("Enter country name: ");
-                fgets(name, sizeof(name), stdin); name[strcspn(name, "\n")] = 0;
-                avg_population_by_country(db, name);
-                break;
-
-            case 9: // Total Population
+            }
+            case 7:
                 total_population(db);
                 break;
-
-            case 10: // Register New User
-                printf("Enter new username: ");
-                fgets(username, sizeof(username), stdin); username[strcspn(username, "\n")] = 0;
-                printf("Enter new password: ");
-                fgets(password, sizeof(password), stdin); password[strcspn(password, "\n")] = 0;
-                if (register_user(db, username, password)) {
-                    printf("User registered successfully.\n");
-                } else {
-                    printf("Registration failed.\n");
-                }
-                break;
-
-            case 11: // Exit
+            case 8:
                 close_db(db);
+                printf("Exiting...\n");
                 return 0;
-
             default:
-                printf("Invalid choice.\n");
+                printf("Invalid option!\n");
         }
     }
 
-    close_db(db);
     return 0;
 }
