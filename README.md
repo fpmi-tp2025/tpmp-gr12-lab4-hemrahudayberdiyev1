@@ -10,11 +10,10 @@
 ## Установка
 ```bash
 # Установка зависимостей
-sudo apt install gcc libsqlite3-dev  # Linux
 brew install sqlite3 gcc            # macOS
 
 # Сборка
-git clone https://github.com/fpmi-tp2025/tpmp-gr12-lab4-PermanAta777.git
+git clone [https://github.com/fpmi-tp2025/tpmp-gr12-lab4-PermanAta777.git]
 cd tpmp -gr12-lab4-hemrahudayberdiyev1
 make
 ```
