@@ -58,3 +58,4 @@ INSERT INTO region (name, capital_region, population_region, square_region, coun
 -- Вставка тестового пользователя в таблицу User
 INSERT INTO User (username, password_hash) VALUES
 ('admin', 'admin');
+('admin', 'admin123');
